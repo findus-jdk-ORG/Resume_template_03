@@ -558,3 +558,136 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load personal information
+        document.querySelector('.name').textContent = `I'M ${portfolioConfig.personalInfo.name.toUpperCase()}`;
+        document.querySelector('.profession-text').textContent = portfolioConfig.personalInfo.title;
+        document.querySelector('.description').innerHTML = portfolioConfig.personalInfo.description;
+        
+        // Load stats
+        document.querySelector('.stat-item:nth-child(1) .stat-number').textContent = portfolioConfig.personalInfo.experienceYears;
+        document.querySelector('.stat-item:nth-child(2) .stat-number').textContent = portfolioConfig.personalInfo.projectsCompleted;
+        document.querySelector('.stat-item:nth-child(3) .stat-number').textContent = portfolioConfig.personalInfo.clientSatisfaction;
+        
+        // Load about section
+        document.querySelectorAll('.about-text p')[0].textContent = `I'm ${portfolioConfig.personalInfo.name}, a full-stack web developer with ${portfolioConfig.personalInfo.experienceYears}+ years of experience crafting digital solutions.`;
+        
+        // Load contact information
+        document.querySelector('.info-item:nth-child(2) p').textContent = portfolioConfig.personalInfo.email;
+        document.querySelector('.info-item:nth-child(3) p').textContent = portfolioConfig.personalInfo.phone;
+        
+        // Load education
+        const educationList = document.querySelector('.education-list');
+        portfolioConfig.personalInfo.education.forEach(edu => {
+            educationList.innerHTML += `
+                <li>
+                    <strong>${edu.degree}</strong>
+                    <p>${edu.institution} (${edu.years})</p>
+                </li>
+            `;
+        });
+        
+        // Load certifications
+        const certList = document.querySelector('.certification-list');
+        portfolioConfig.personalInfo.certifications.forEach(cert => {
+            certList.innerHTML += `<li>${cert}</li>`;
+        });
+        
+        // Load skills
+        const skillsContainer = document.querySelector('.skill-items');
+        portfolioConfig.technicalSkills.forEach(skill => {
+            skillsContainer.innerHTML += `
+                <div class="skill-item" data-percent="${skill.percent}">
+                    <div class="skill-info">
+                        <span>${skill.name}</span>
+                        <span>${skill.percent}%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-level" style="width: ${skill.percent}%"></div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Load professional skills
+        const proSkillsContainer = document.querySelector('.professional-skills');
+        portfolioConfig.professionalSkills.forEach(skill => {
+            proSkillsContainer.innerHTML += `
+                <div class="pro-skill">
+                    <div class="circular-progress" data-percent="${skill.percent}">
+                        <div class="circle-progress">
+                            <svg>
+                                <circle class="circle-bg" cx="50" cy="50" r="45"></circle>
+                                <circle class="circle-fill" cx="50" cy="50" r="45"></circle>
+                            </svg>
+                            <div class="circle-text">${skill.percent}%</div>
+                        </div>
+                        <span>${skill.name}</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Load projects
+        const portfolioGrid = document.querySelector('.portfolio-grid');
+        portfolioConfig.projects.forEach(project => {
+            portfolioGrid.innerHTML += `
+                <div class="portfolio-item" data-category="${project.category}">
+                    <img src="${project.imageUrl}" alt="${project.title}">
+                    <div class="portfolio-overlay">
+                        <div class="overlay-content">
+                            <h3>${project.title}</h3>
+                            <p>${project.description}</p>
+                            <div class="portfolio-links">
+                                ${project.links.map(link => `
+                                    <a href="${link.url}" class="portfolio-link" aria-label="${link.type} project">
+                                        <i class="${link.icon}"></i>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Load services
+        const servicesContainer = document.querySelector('.services-container');
+        portfolioConfig.services.forEach(service => {
+            servicesContainer.innerHTML += `
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="${service.icon}"></i>
+                    </div>
+                    <h3>${service.title}</h3>
+                    <p>${service.description}</p>
+                </div>
+            `;
+        });
+        
+        // Load tech stack
+        const techStackContainer = document.querySelector('.tech-stack');
+        portfolioConfig.techStack.forEach(tech => {
+            techStackContainer.innerHTML += `
+                <div class="tech-icon" style="--delay: 0.1s">
+                    <img src="${tech.iconUrl}" alt="${tech.name}">
+                </div>
+            `;
+        });
+        
+        // Update resume download link
+        document.getElementById('download-resume').href = portfolioConfig.personalInfo.resumeFile;
+        
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Initialize contact form
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.querySelector('input[name="access_key"]').value = portfolioConfig.contact.formAccessKey;
+            contactForm.querySelector('input[name="subject"]').value = portfolioConfig.contact.formSubject;
+        }
+    });
